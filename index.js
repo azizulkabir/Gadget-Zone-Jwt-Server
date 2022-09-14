@@ -1,8 +1,9 @@
 const express = require('express');
-var cors = require('cors')
+var cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const app = express()
-app.use(cors())
+const app = express();
+require('dotenv').config();
+app.use(cors());
 
 // user: GadgetZone
 //password: Yw7JQCCeoSTBvHkO
@@ -12,6 +13,23 @@ app.use(cors())
 const port = process.env.PORT || 5000;
 
 
+//mongodb connect
+
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.crvvuvf.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
+async function run() {
+   try {
+     await client.connect();
+     console.log('db connected');
+   } finally {
+     await client.close();
+   }
+ }
+ run().catch(console.dir);
+
+//Api create 
 app.get('/', (req, res) => {
    res.send('My node is running......')
 })
@@ -24,14 +42,4 @@ app.listen(port, () => {
    console.log('my node start on the port ${port}')
 })
 
-//mongodb connect
 
-
-const uri = `mongodb+srv://GadgetZone:<password>@cluster0.crvvuvf.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-   const collection = client.db("gadgetzone").collection("products");
-   // perform actions on the collection object
-   console.log('connected database');
-   client.close();
-});
