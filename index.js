@@ -1,9 +1,11 @@
 const express = require('express');
 var cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const { json } = require('express');
 const app = express();
 require('dotenv').config();
 app.use(cors());
+app.use(express.json())
 
 // user: GadgetZone
 //password: Yw7JQCCeoSTBvHkO
@@ -23,6 +25,12 @@ async function run() {
    try {
      await client.connect();
      console.log('db connected');
+      //upload products
+      app.post('/uploadproduct', async(req, rea)=>{
+        
+      })
+
+
    } finally {
      await client.close();
    }
