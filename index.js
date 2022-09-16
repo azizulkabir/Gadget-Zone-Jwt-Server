@@ -53,6 +53,10 @@ run().catch(console.dir);
 
 //Api create 
 
+app.get('/user', (req, res)=>{
+   res.send('this is user');
+})
+
 app.get('/', (req, res) => {
    res.send('My node is running......')
 })
